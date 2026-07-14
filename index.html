@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>—</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0a;
+      --text-primary: #888;
+      --text-secondary: #666;
+      --text-muted: #555;
+      --text-dim: #444;
+      --text-faint: #333;
+      --text-ghost: #222;
+      --border-subtle: #222;
+      --border-focus: #444;
+      --accent-pulse: #444;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'JetBrains Mono', monospace;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    ::selection {
+      background-color: #222;
+      color: #aaa;
+    }
+
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.03;
+      background-image: 
+        linear-gradient(#333 1px, transparent 1px),
+        linear-gradient(90deg, #333 1px, transparent 1px);
+      background-size: 60px 60px;
+      z-index: 0;
+    }
+
+    #particle-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.3;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .app-container {
+      position: relative;
+      z-index: 10;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .main-text {
+      font-size: 1.125rem;
+      line-height: 1.75;
+      letter-spacing: 0.05em;
+      color: var(--text-primary);
+      font-weight: 300;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: all 2500ms ease;
+    }
+
+    @media (min-width: 768px) {
+      .main-text {
+        font-size: 1.25rem;
+      }
+    }
+
+    .divider {
+      height: 1px;
+      width: 0;
+      background-color: var(--border-subtle);
+      margin: 2rem 0;
+      transition: width 3000ms ease;
+    }
+
+    .sub-text {
+      font-size: 0.875rem;
+      line-height: 1.75;
+      letter-spacing: 0.15em;
+      color: var(--text-secondary);
+      font-weight: 300;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: all 2500ms ease;
+    }
+
+    @media (min-width: 768px) {
+      .sub-text {
+        font-size: 1rem;
+      }
+    }
+
+    .regret-text {
+      font-size: 0.75rem;
+      line-height: 1.6;
+      letter-spacing: 0.2em;
+      color: var(--text-faint);
+      font-weight: 300;
+      font-style: italic;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: all 3000ms ease;
+      margin-top: 0.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .regret-text {
+        font-size: 0.8125rem;
+      }
+    }
+
+    .uptime-display {
+      margin-top: 4rem;
+      font-size: 10px;
+      letter-spacing: 0.4em;
+      color: var(--text-faint);
+      opacity: 0;
+      transition: opacity 4000ms ease;
+    }
+
+    .input-container {
+      margin-top: 2rem;
+      opacity: 0;
+      transition: opacity 5000ms ease;
+    }
+
+    .hidden-input {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      text-align: center;
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      outline: none;
+      width: 12rem;
+      padding: 0.5rem 0;
+      font-family: 'JetBrains Mono', monospace;
+      transition: border-color 700ms ease, color 700ms ease;
+    }
+
+    .hidden-input::placeholder {
+      color: #1a1a1a;
+    }
+
+    .hidden-input:focus {
+      border-bottom-color: var(--border-focus);
+      color: var(--text-primary);
+    }
+
+    .input-feedback {
+      font-size: 9px;
+      margin-top: 0.75rem;
+      letter-spacing: 0.2em;
+      color: var(--text-ghost);
+      min-height: 1rem;
+      transition: color 500ms ease;
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 8px;
+      letter-spacing: 0.3em;
+      color: var(--text-ghost);
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity 6000ms ease;
+      pointer-events: none;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .is-visible {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
+
+    .divider-visible {
+      width: 60px !important;
+    }
+
+    .hidden-input:focus {
+      caret-color: var(--text-dim);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+  <main class="app-container">
+    <h1 id="main-text" class="main-text">
+      Acho que você não deveria estar aqui.
+    </h1>
+
+    <div id="divider" class="divider" aria-hidden="true"></div>
+
+    <p id="sub-text" class="sub-text">
+      Tome cuidado nos próximos momentos.
+    </p>
+
+    <p id="regret-text" class="regret-text">
+      Você não deveria ter entrado... Sinto muito.
+    </p>
+
+    <div id="time-display" class="uptime-display">
+      <span id="uptime">00:00:00:00</span>
+    </div>
+
+    <div id="input-container" class="input-container">
+      <input 
+        type="text" 
+        id="hidden-input" 
+        class="hidden-input"
+        placeholder="_" 
+        maxlength="32"
+        autocomplete="off"
+        spellcheck="false"
+        aria-label="Entrada de comando"
+      >
+      <p id="input-feedback" class="input-feedback" aria-live="polite"></p>
+    </div>
+  </main>
+
+  <footer id="footer" class="footer">
+    <span id="footer-text">Observação passiva em andamento</span>
+  </footer>
+
+  <script>
+    (function() {
+      'use strict';
+
+      const CONFIG = Object.freeze({
+        PARTICLE_COUNT: 25,
+        PARTICLE_SPEED: 0.3,
+        UPTIME_INTERVAL: 100,
+        GLITCH_CHANCE: 0.003,
+        SECRET_SEQUENCE: [38, 38, 40, 40, 37, 39, 37, 39, 66, 65],
+        TYPEWRITER_SPEED: 45,
+        DEBOUNCE_MS: 400,
+        MAX_ERRORS: 10
+      });
+
+      const state = {
+        startTime: Date.now(),
+        uptimeInterval: null,
+        animationId: null,
+        konamiIndex: 0,
+        isGlitching: false,
+        inputFocused: false,
+        errorCount: 0,
+        observerActive: true,
+        particlesInitialized: false
+      };
+
+      const Utils = {
+        safeQuery: (selector, context = document) => {
+          try {
+            if (!selector || typeof selector !== 'string') {
+              console.warn('[Utils.safeQuery] Seletor inválido:', selector);
+              return null;
+            }
+            return context.querySelector(selector);
+          } catch (e) {
+            console.warn('[Utils.safeQuery] Erro ao selecionar:', selector, e.message);
+            return null;
+          }
+        },
+
+        safeAddEvent: (element, event, handler, options = {}) => {
+          try {
+            if (!element || !event || typeof handler !== 'function') {
+              console.warn('[Utils.safeAddEvent] Parâmetros inválidos');
+              return false;
+            }
+            element.addEventListener(event, handler, options);
+            return true;
+          } catch (e) {
+            console.warn('[Utils.safeAddEvent] Falha ao registrar evento:', e.message);
+            return false;
+          }
+        },
+
+        safeRemoveEvent: (element, event, handler) => {
+          try {
+            if (!element || !event || typeof handler !== 'function') return false;
+            element.removeEventListener(event, handler);
+            return true;
+          } catch (e) {
+            return false;
+          }
+        },
+
+        clamp: (val, min, max) => {
+          if (typeof val !== 'number' || isNaN(val)) return min;
+          return Math.min(Math.max(val, min), max);
+        },
+
+        random: (min, max) => {
+          if (typeof min !== 'number' || typeof max !== 'number') return 0;
+          return Math.random() * (max - min) + min;
+        },
+
+        debounce: (fn, ms) => {
+          if (typeof fn !== 'function') return () => {};
+          let t;
+          return (...args) => {
+            clearTimeout(t);
+            t = setTimeout(() => {
+              try {
+                fn(...args);
+              } catch (e) {
+                console.warn('[debounce] Erro na execução:', e.message);
+              }
+            }, ms);
+          };
+        },
+
+        formatUptime: (ms) => {
+          try {
+            if (typeof ms !== 'number' || isNaN(ms) || ms < 0) ms = 0;
+            const totalSeconds = Math.floor(ms / 1000);
+            const h = Math.floor(totalSeconds / 3600).toString().padStart(2, '0');
+            const m = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2, '0');
+            const s = (totalSeconds % 60).toString().padStart(2, '0');
+            const cs = Math.floor((ms % 1000) / 10).toString().padStart(2, '0');
+            return `${h}:${m}:${s}:${cs}`;
+          } catch (e) {
+            console.warn('[Utils.formatUptime] Erro:', e.message);
+            return '00:00:00:00';
+          }
+        },
+
+        raf: (callback) => {
+          try {
+            return requestAnimationFrame(callback);
+          } catch (e) {
+            console.warn('[Utils.raf] requestAnimationFrame falhou:', e.message);
+            return null;
+          }
+        },
+
+        cancelRaf: (id) => {
+          try {
+            if (id) cancelAnimationFrame(id);
+          } catch (e) {
+            console.warn('[Utils.cancelRaf] cancelAnimationFrame falhou:', e.message);
+          }
+        }
+      };
+
+      class ParticleSystem {
+        constructor(canvas) {
+          if (!canvas || !(canvas instanceof HTMLCanvasElement)) {
+            throw new TypeError('ParticleSystem requer um elemento canvas válido');
+          }
+
+          this.canvas = canvas;
+          this.ctx = canvas.getContext('2d');
+
+          if (!this.ctx) {
+            throw new Error('Contexto 2D não disponível no canvas');
+          }
+
+          this.particles = [];
+          this.width = 0;
+          this.height = 0;
+          this.dpr = 1;
+
+          this.resize();
+          this.createParticles();
+          this.bindResize();
+        }
+
+        resize() {
+          try {
+            this.dpr = window.devicePixelRatio || 1;
+            const rect = this.canvas.getBoundingClientRect();
+
+            if (rect.width === 0 || rect.height === 0) {
+              console.warn('[ParticleSystem.resize] Canvas com dimensões zero');
+              return;
+            }
+
+            this.canvas.width = rect.width * this.dpr;
+            this.canvas.height = rect.height * this.dpr;
+            this.ctx.scale(this.dpr, this.dpr);
+            this.width = rect.width;
+            this.height = rect.height;
+          } catch (e) {
+            console.warn('[ParticleSystem.resize] Erro:', e.message);
+          }
+        }
+
+        createParticles() {
+          try {
+            this.particles = [];
+            const count = Utils.clamp(CONFIG.PARTICLE_COUNT, 5, 100);
+
+            for (let i = 0; i < count; i++) {
+              this.particles.push({
+                x: Utils.random(0, this.width || 800),
+                y: Utils.random(0, this.height || 600),
+                vx: Utils.random(-CONFIG.PARTICLE_SPEED, CONFIG.PARTICLE_SPEED),
+                vy: Utils.random(-CONFIG.PARTICLE_SPEED, CONFIG.PARTICLE_SPEED),
+                size: Utils.random(0.5, 1.5),
+                opacity: Utils.random(0.1, 0.4)
+              });
+            }
+          } catch (e) {
+            console.warn('[ParticleSystem.createParticles] Erro:', e.message);
+            this.particles = [];
+          }
+        }
+
+        bindResize() {
+          const handler = Utils.debounce(() => {
+            try {
+              this.resize();
+              this.createParticles();
+            } catch (e) {
+              console.warn('[ParticleSystem.bindResize] Erro no resize:', e.message);
+            }
+          }, 200);
+
+          Utils.safeAddEvent(window, 'resize', handler);
+        }
+
+        update() {
+          try {
+            if (!this.ctx || !this.width || !this.height) return;
+
+            this.ctx.clearRect(0, 0, this.width, this.height);
+
+            for (let i = 0; i < this.particles.length; i++) {
+              const p = this.particles[i];
+
+              p.x += p.vx;
+              p.y += p.vy;
+
+              if (p.x < 0 || p.x > this.width) p.vx *= -1;
+              if (p.y < 0 || p.y > this.height) p.vy *= -1;
+
+              p.x = Utils.clamp(p.x, 0, this.width);
+              p.y = Utils.clamp(p.y, 0, this.height);
+
+              this.ctx.beginPath();
+              this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+              this.ctx.fillStyle = `rgba(100, 100, 100, ${p.opacity})`;
+              this.ctx.fill();
+            }
+
+            for (let i = 0; i < this.particles.length; i++) {
+              for (let j = i + 1; j < this.particles.length; j++) {
+                const dx = this.particles[i].x - this.particles[j].x;
+                const dy = this.particles[i].y - this.particles[j].y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < 120 && dist > 0) {
+                  this.ctx.beginPath();
+                  this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
+                  this.ctx.lineTo(this.particles[j].x, this.particles[j].y);
+                  this.ctx.strokeStyle = `rgba(60, 60, 60, ${0.05 * (1 - dist / 120)})`;
+                  this.ctx.lineWidth = 0.3;
+                  this.ctx.stroke();
+                }
+              }
+            }
+          } catch (e) {
+            console.warn('[ParticleSystem.update] Erro no frame:', e.message);
+            state.errorCount++;
+          }
+        }
+
+        start() {
+          const loop = () => {
+            try {
+              this.update();
+
+              if (state.errorCount < CONFIG.MAX_ERRORS) {
+                state.animationId = Utils.raf(loop);
+              } else {
+                console.warn('[ParticleSystem.start] Máximo de erros atingido. Parando animação.');
+              }
+            } catch (e) {
+              console.error('[ParticleSystem.loop] Erro crítico no loop:', e.message);
+              state.errorCount++;
+              if (state.errorCount < CONFIG.MAX_ERRORS) {
+                state.animationId = Utils.raf(loop);
+              }
+            }
+          };
+
+          loop();
+        }
+
+        destroy() {
+          Utils.cancelRaf(state.animationId);
+          state.animationId = null;
+        }
+      }
+
+      const GlitchEffect = {
+        chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?',
+
+        apply: (element, originalText, intensity = 0.3) => {
+          if (!element || state.isGlitching || !originalText) return;
+
+          state.isGlitching = true;
+
+          try {
+            const textLength = originalText.length;
+            if (textLength === 0) {
+              state.isGlitching = false;
+              return;
+            }
+
+            const iterations = Math.max(1, Math.floor(textLength * intensity));
+            let count = 0;
+            const maxIterations = 8;
+
+            const interval = setInterval(() => {
+              try {
+                let glitched = originalText.split('');
+
+                for (let i = 0; i < iterations; i++) {
+                  const idx = Math.floor(Math.random() * textLength);
+                  if (glitched[idx] !== ' ' && glitched[idx] !== undefined) {
+                    glitched[idx] = GlitchEffect.chars[
+                      Math.floor(Math.random() * GlitchEffect.chars.length)
+                    ];
+                  }
+                }
+
+                element.textContent = glitched.join('');
+                count++;
+
+                if (count > maxIterations) {
+                  clearInterval(interval);
+                  element.textContent = originalText;
+                  state.isGlitching = false;
+                }
+              } catch (e) {
+                clearInterval(interval);
+                element.textContent = originalText;
+                state.isGlitching = false;
+                console.warn('[GlitchEffect.apply] Erro no glitch:', e.message);
+              }
+            }, 40);
+          } catch (e) {
+            state.isGlitching = false;
+            console.warn('[GlitchEffect.apply] Erro ao iniciar glitch:', e.message);
+          }
+        }
+      };
+
+      const UptimeManager = {
+        start: () => {
+          try {
+            const display = Utils.safeQuery('#uptime');
+            if (!display) {
+              console.warn('[UptimeManager.start] Elemento #uptime não encontrado');
+              return;
+            }
+
+            if (state.uptimeInterval) {
+              clearInterval(state.uptimeInterval);
+            }
+
+            state.uptimeInterval = setInterval(() => {
+              try {
+                if (!state.observerActive) return;
+                const elapsed = Date.now() - state.startTime;
+                display.textContent = Utils.formatUptime(elapsed);
+              } catch (e) {
+                console.warn('[UptimeManager.interval] Erro:', e.message);
+              }
+            }, CONFIG.UPTIME_INTERVAL);
+          } catch (e) {
+            console.warn('[UptimeManager.start] Erro:', e.message);
+          }
+        },
+
+        stop: () => {
+          try {
+            if (state.uptimeInterval) {
+              clearInterval(state.uptimeInterval);
+              state.uptimeInterval = null;
+            }
+          } catch (e) {
+            console.warn('[UptimeManager.stop] Erro:', e.message);
+          }
+        },
+
+        reset: () => {
+          state.startTime = Date.now();
+        }
+      };
+
+      const InputManager = {
+        responses: Object.freeze({
+          'sos': 'Protocolo reconhecido.',
+          'first': 'Identidade verificada.',
+          '2028': 'Marco temporal registrado.',
+          'observar': 'Modo passivo ativado.',
+          'sair': 'Não há saída registrada.',
+          'ajuda': 'Nenhuma assistência disponível.',
+          'senha': 'Credenciais insuficientes.',
+          'admin': 'Acesso negado. Nível inadequado.',
+          'guilherme': 'Presença detectada.',
+          'santa': 'Localização registrada.'
+        }),
+
+        init: () => {
+          try {
+            const input = Utils.safeQuery('#hidden-input');
+            const feedback = Utils.safeQuery('#input-feedback');
+
+            if (!input || !feedback) {
+              console.warn('[InputManager.init] Elementos não encontrados');
+              return;
+            }
+
+            const handleInput = Utils.debounce((value) => {
+              try {
+                const trimmed = value.trim().toLowerCase();
+
+                if (!trimmed) {
+                  feedback.textContent = '';
+                  feedback.style.color = '#222';
+                  return;
+                }
+
+                if (InputManager.responses[trimmed]) {
+                  feedback.textContent = InputManager.responses[trimmed];
+                  feedback.style.color = '#555';
+                } else if (trimmed.length > 3) {
+                  feedback.textContent = 'Comando não reconhecido.';
+                  feedback.style.color = '#333';
+                } else {
+                  feedback.textContent = '';
+                }
+              } catch (e) {
+                console.warn('[InputManager.handleInput] Erro:', e.message);
+              }
+            }, CONFIG.DEBOUNCE_MS);
+
+            Utils.safeAddEvent(input, 'input', (e) => {
+              try {
+                handleInput(e.target.value);
+              } catch (err) {
+                console.warn('[InputManager.input] Erro:', err.message);
+              }
+            });
+
+            Utils.safeAddEvent(input, 'focus', () => {
+              state.inputFocused = true;
+              input.style.borderColor = '#444';
+            });
+
+            Utils.safeAddEvent(input, 'blur', () => {
+              state.inputFocused = false;
+              input.style.borderColor = '#222';
+            });
+
+            Utils.safeAddEvent(input, 'keydown', (e) => {
+              try {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  input.value = '';
+                  feedback.textContent = '';
+                  feedback.style.color = '#222';
+                }
+              } catch (err) {
+                console.warn('[InputManager.keydown] Erro:', err.message);
+              }
+            });
+
+          } catch (e) {
+            console.warn('[InputManager.init] Erro:', e.message);
+          }
+        }
+      };
+
+      const KonamiManager = {
+        init: () => {
+          Utils.safeAddEvent(document, 'keydown', (e) => {
+            try {
+              if (e.keyCode === CONFIG.SECRET_SEQUENCE[state.konamiIndex]) {
+                state.konamiIndex++;
+
+                if (state.konamiIndex === CONFIG.SECRET_SEQUENCE.length) {
+                  KonamiManager.trigger();
+                  state.konamiIndex = 0;
+                }
+              } else {
+                state.konamiIndex = 0;
+              }
+            } catch (err) {
+              state.konamiIndex = 0;
+              console.warn('[KonamiManager.keydown] Erro:', err.message);
+            }
+          });
+        },
+
+        trigger: () => {
+          try {
+            const mainText = Utils.safeQuery('#main-text');
+            const subText = Utils.safeQuery('#sub-text');
+
+            if (mainText) {
+              mainText.style.transition = 'all 2s ease';
+              mainText.style.letterSpacing = '0.5em';
+              setTimeout(() => {
+                mainText.style.letterSpacing = '0.05em';
+              }, 3000);
+            }
+
+            if (subText) {
+              const originalSub = subText.textContent;
+              subText.textContent = 'Você sabe mais do que deveria.';
+              setTimeout(() => {
+                subText.textContent = originalSub || 'Tome cuidado nos próximos momentos.';
+              }, 5000);
+            }
+          } catch (e) {
+            console.warn('[KonamiManager.trigger] Erro:', e.message);
+          }
+        }
+      };
+
+      const VisibilityManager = {
+        init: () => {
+          Utils.safeAddEvent(document, 'visibilitychange', () => {
+            try {
+              if (document.hidden) {
+                state.observerActive = false;
+                UptimeManager.stop();
+              } else {
+                state.observerActive = true;
+                UptimeManager.start();
+              }
+            } catch (e) {
+              console.warn('[VisibilityManager] Erro:', e.message);
+            }
+          });
+        }
+      };
+
+      const EntrySequence = {
+        steps: [
+          { id: 'main-text', delay: 800, action: 'fade-slide' },
+          { id: 'divider', delay: 1600, action: 'divider' },
+          { id: 'sub-text', delay: 2400, action: 'fade-slide' },
+          { id: 'regret-text', delay: 3800, action: 'fade-slide' },
+          { id: 'time-display', delay: 5200, action: 'fade' },
+          { id: 'input-container', delay: 6400, action: 'fade' },
+          { id: 'footer', delay: 8000, action: 'fade' }
+        ],
+
+        start: () => {
+          EntrySequence.steps.forEach(({ id, delay, action }) => {
+            setTimeout(() => {
+              try {
+                const element = Utils.safeQuery(`#${id}`);
+                if (!element) {
+                  console.warn(`[EntrySequence] Elemento #${id} não encontrado`);
+                  return;
+                }
+
+                switch (action) {
+                  case 'fade':
+                    element.style.opacity = '1';
+                    break;
+                  case 'fade-slide':
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                    break;
+                  case 'divider':
+                    element.style.width = '60px';
+                    break;
+                  default:
+                    element.style.opacity = '1';
+                }
+              } catch (e) {
+                console.warn(`[EntrySequence] Erro ao ativar #${id}:`, e.message);
+              }
+            }, delay);
+          });
+        }
+      };
+
+      const RandomGlitch = {
+        start: () => {
+          const mainText = Utils.safeQuery('#main-text');
+          const originalText = mainText ? mainText.textContent : '';
+
+          if (!mainText || !originalText) {
+            console.warn('[RandomGlitch] Elemento ou texto não disponível');
+            return;
+          }
+
+          const checkGlitch = () => {
+            try {
+              if (Math.random() < CONFIG.GLITCH_CHANCE && !state.isGlitching) {
+                GlitchEffect.apply(mainText, originalText, 0.15);
+              }
+            } catch (e) {
+              console.warn('[RandomGlitch.check] Erro:', e.message);
+            }
+
+            const nextCheck = Utils.random(2000, 6000);
+            setTimeout(checkGlitch, nextCheck);
+          };
+
+          setTimeout(checkGlitch, 10000);
+        }
+      };
+
+      const ConsoleMessage = {
+        print: () => {
+          try {
+            const styles = [
+              'color: #333',
+              'font-family: monospace',
+              'font-size: 11px',
+              'padding: 8px 0',
+              'border-left: 2px solid #222',
+              'padding-left: 8px'
+            ].join(';');
+
+            console.log('%c Observação passiva em andamento. ', styles);
+            console.log('%c Nenhuma ação manual é necessária. ', styles);
+          } catch (e) {}
+        }
+      };
+
+      const App = {
+        init: () => {
+          try {
+            console.log('[App] Inicializando...');
+
+            const canvas = Utils.safeQuery('#particle-canvas');
+            if (canvas) {
+              try {
+                const particleSystem = new ParticleSystem(canvas);
+                particleSystem.start();
+                state.particlesInitialized = true;
+              } catch (e) {
+                console.warn('[App.init] ParticleSystem falhou:', e.message);
+              }
+            } else {
+              console.warn('[App.init] Canvas não encontrado');
+            }
+
+            UptimeManager.start();
+            EntrySequence.start();
+            InputManager.init();
+            KonamiManager.init();
+            VisibilityManager.init();
+            RandomGlitch.start();
+            ConsoleMessage.print();
+
+            console.log('[App] Inicialização completa.');
+
+          } catch (e) {
+            console.error('[App.init] Falha crítica na inicialização:', e.message);
+          }
+        },
+
+        destroy: () => {
+          try {
+            UptimeManager.stop();
+            Utils.cancelRaf(state.animationId);
+            state.animationId = null;
+          } catch (e) {
+            console.warn('[App.destroy] Erro:', e.message);
+          }
+        }
+      };
+
+      const boot = () => {
+        try {
+          if (document.readyState === 'loading') {
+            Utils.safeAddEvent(document, 'DOMContentLoaded', App.init);
+          } else {
+            App.init();
+          }
+        } catch (e) {
+          console.error('[Boot] Erro fatal:', e.message);
+        }
+      };
+
+      boot();
+
+      Utils.safeAddEvent(window, 'beforeunload', () => {
+        try {
+          App.destroy();
+        } catch (e) {}
+      });
+
+      Utils.safeAddEvent(window, 'error', (e) => {
+        console.warn('[GlobalError]', e.message, 'em', e.filename, ':', e.lineno);
+      });
+
+      Utils.safeAddEvent(window, 'unhandledrejection', (e) => {
+        console.warn('[UnhandledRejection]', e.reason);
+      });
+
+    })();
+  </script>
+</body>
+</html>
