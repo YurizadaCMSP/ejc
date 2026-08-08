@@ -1,0 +1,685 @@
+/* ============================================
+   EJC COCAIA - 9º Encontro de Jovens com Cristo
+   CSS Principal - Performance First
+   ============================================ */
+
+/* Reset e Base */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --color-bg: #000000;
+    --color-bg-soft: #0a0a0a;
+    --color-surface: #111111;
+    --color-surface-hover: #1a1a1a;
+    --color-text-primary: #ffffff;
+    --color-text-secondary: #a0a0a0;
+    --color-text-muted: #666666;
+    --color-accent: #c9a96e;
+    --color-accent-soft: rgba(201, 169, 110, 0.15);
+    --color-border: rgba(255, 255, 255, 0.08);
+    --color-progress: rgba(255, 255, 255, 0.9);
+    --color-progress-bg: rgba(255, 255, 255, 0.12);
+    
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    
+    --transition-fast: 150ms ease;
+    --transition-base: 300ms ease;
+    --transition-slow: 600ms ease;
+    --transition-premium: 800ms cubic-bezier(0.22, 1, 0.36, 1);
+    
+    --player-height: 72px;
+    --player-height-mobile: 64px;
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    line-height: 1.5;
+}
+
+/* ============================================
+   LOADING SCREEN
+   ============================================ */
+.loading-screen {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    background-color: var(--color-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    transition: opacity var(--transition-premium), visibility var(--transition-premium);
+    will-change: opacity, visibility;
+}
+
+.loading-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.loading-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    text-align: center;
+}
+
+.loading-logo {
+    width: clamp(140px, 30vw, 280px);
+    height: auto;
+    object-fit: contain;
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+    animation: loadingLogoIn 1s var(--transition-premium) 0.2s forwards;
+    will-change: opacity, transform;
+    filter: drop-shadow(0 0 60px rgba(201, 169, 110, 0.08));
+}
+
+@keyframes loadingLogoIn {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.loading-text {
+    font-size: clamp(0.8rem, 2vw, 0.95rem);
+    color: var(--color-text-muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeInUp 0.8s var(--transition-premium) 0.6s forwards;
+}
+
+.loading-indicator {
+    width: clamp(100px, 20vw, 160px);
+    height: 1px;
+    background-color: var(--color-border);
+    border-radius: 1px;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeIn 0.6s ease 0.8s forwards;
+}
+
+.loading-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, var(--color-text-secondary), transparent);
+    animation: loadingProgress 2s cubic-bezier(0.4, 0, 0.2, 1) 0.8s forwards;
+}
+
+@keyframes loadingProgress {
+    0% { width: 0%; transform: translateX(-100%); }
+    50% { width: 60%; transform: translateX(0%); }
+    100% { width: 100%; transform: translateX(100%); }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Botão Entrar */
+.enter-btn {
+    margin-top: 2.5rem;
+    padding: 0.9rem 2.5rem;
+    background-color: transparent;
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+    border-radius: 100px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeInUp 0.6s var(--transition-premium) forwards;
+    transition: background-color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+    will-change: transform;
+}
+
+.enter-btn:hover,
+.enter-btn:focus-visible {
+    background-color: var(--color-surface);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+    outline: none;
+}
+
+.enter-btn:active {
+    transform: translateY(0);
+}
+
+.enter-btn-icon {
+    transition: transform var(--transition-fast);
+}
+
+.enter-btn:hover .enter-btn-icon,
+.enter-btn:focus-visible .enter-btn-icon {
+    transform: translateX(3px);
+}
+
+/* ============================================
+   CONTEÚDO PRINCIPAL
+   ============================================ */
+.main-content {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem calc(var(--player-height-mobile) + var(--safe-bottom) + 2rem);
+    position: relative;
+    opacity: 0;
+    transition: opacity var(--transition-premium);
+    will-change: opacity;
+}
+
+.main-content.visible {
+    opacity: 1;
+}
+
+/* Efeito de vinheta e iluminação suave */
+.main-content::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: 
+        radial-gradient(ellipse at 50% 35%, rgba(201, 169, 110, 0.04) 0%, transparent 60%),
+        radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0, 0, 0, 0.6) 100%);
+    z-index: -1;
+}
+
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: clamp(2rem, 5vh, 3.5rem);
+    width: 100%;
+    max-width: 900px;
+    animation: contentReveal 1s var(--transition-premium) 0.1s both;
+}
+
+@keyframes contentReveal {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Logo Principal */
+.logo-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-container::before {
+    content: '';
+    position: absolute;
+    width: clamp(200px, 45vw, 400px);
+    height: clamp(200px, 45vw, 400px);
+    background: radial-gradient(circle, rgba(201, 169, 110, 0.06) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.main-logo {
+    width: clamp(160px, 32vw, 320px);
+    height: auto;
+    object-fit: contain;
+    opacity: 0;
+    transform: scale(0.97);
+    animation: logoReveal 1.2s var(--transition-premium) 0.2s forwards;
+    will-change: opacity, transform;
+    filter: drop-shadow(0 0 40px rgba(201, 169, 110, 0.06));
+}
+
+@keyframes logoReveal {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Título do Evento */
+.event-title {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    font-weight: 300;
+    line-height: 1.4;
+    opacity: 0;
+    animation: fadeInUp 1s var(--transition-premium) 0.5s forwards;
+}
+
+.event-title-line {
+    display: block;
+    font-size: clamp(1rem, 2.8vw, 1.6rem);
+    color: var(--color-text-secondary);
+    letter-spacing: 0.04em;
+}
+
+.event-title-line:first-child {
+    color: var(--color-text-primary);
+    font-weight: 400;
+    letter-spacing: 0.06em;
+}
+
+/* ============================================
+   CONTAGEM REGRESSIVA
+   ============================================ */
+.countdown {
+    display: flex;
+    justify-content: center;
+    gap: clamp(0.75rem, 3vw, 2.5rem);
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeInUp 1s var(--transition-premium) 0.7s forwards;
+}
+
+.countdown-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: clamp(60px, 14vw, 100px);
+}
+
+.countdown-number {
+    font-size: clamp(2.2rem, 8vw, 4.5rem);
+    font-weight: 200;
+    line-height: 1;
+    color: var(--color-text-primary);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+    transition: transform var(--transition-fast), opacity var(--transition-fast);
+    will-change: transform;
+}
+
+.countdown-number.changed {
+    animation: numberPulse 0.4s ease;
+}
+
+@keyframes numberPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); opacity: 0.8; }
+    100% { transform: scale(1); }
+}
+
+.countdown-label {
+    font-size: clamp(0.65rem, 1.5vw, 0.8rem);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-weight: 400;
+}
+
+/* Mensagem do Evento */
+.event-message {
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    font-weight: 300;
+    color: var(--color-text-primary);
+    letter-spacing: 0.08em;
+    text-align: center;
+    animation: fadeInUp 0.8s var(--transition-premium) both;
+}
+
+/* ============================================
+   PLAYER DE MÚSICA
+   ============================================ */
+.player {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 0 1rem calc(0.75rem + var(--safe-bottom));
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.85) 60%, transparent 100%);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    transform: translateY(10px);
+    animation: playerReveal 0.8s var(--transition-premium) 1s forwards;
+    will-change: opacity, transform;
+}
+
+@keyframes playerReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.player-inner {
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    height: var(--player-height-mobile);
+    transition: background-color var(--transition-fast);
+}
+
+.player-inner:hover {
+    background-color: var(--color-surface-hover);
+}
+
+/* Botões do Player */
+.player-btn {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background-color var(--transition-fast), transform var(--transition-fast);
+    will-change: transform;
+}
+
+.player-btn:hover,
+.player-btn:focus-visible {
+    background-color: rgba(255, 255, 255, 0.06);
+    outline: none;
+}
+
+.player-btn:active {
+    transform: scale(0.92);
+}
+
+.player-btn svg {
+    width: 22px;
+    height: 22px;
+}
+
+.play-btn svg {
+    width: 26px;
+    height: 26px;
+}
+
+/* Informações da Música */
+.player-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+    flex-shrink: 1;
+}
+
+.music-title {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 0.01em;
+}
+
+.music-artist {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Barra de Progresso */
+.player-progress-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+    min-width: 0;
+}
+
+.time-display {
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+    min-width: 2.2rem;
+    text-align: center;
+}
+
+.progress-bar-container {
+    position: relative;
+    flex: 1;
+    height: 4px;
+    background-color: var(--color-progress-bg);
+    border-radius: 2px;
+    cursor: pointer;
+    overflow: visible;
+    transition: height var(--transition-fast);
+}
+
+.progress-bar-container:hover,
+.progress-bar-container:focus-visible {
+    height: 6px;
+    outline: none;
+}
+
+.progress-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background-color: var(--color-progress);
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.1s linear;
+    will-change: width;
+}
+
+.progress-handle {
+    position: absolute;
+    top: 50%;
+    width: 12px;
+    height: 12px;
+    background-color: var(--color-text-primary);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform var(--transition-fast);
+    pointer-events: none;
+    left: 0%;
+    will-change: transform, left;
+}
+
+.progress-bar-container:hover .progress-handle,
+.progress-bar-container:focus-visible .progress-handle {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Controle de Volume */
+.volume-btn {
+    display: none;
+}
+
+.volume-slider {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    right: 1rem;
+    width: 120px;
+    height: 4px;
+    background-color: var(--color-progress-bg);
+    border-radius: 2px;
+    cursor: pointer;
+    padding: 8px 0;
+    background-clip: content-box;
+}
+
+.volume-level {
+    height: 100%;
+    background-color: var(--color-text-secondary);
+    border-radius: 2px;
+    width: 70%;
+    transition: width var(--transition-fast);
+}
+
+/* ============================================
+   RESPONSIVIDADE
+   ============================================ */
+@media (min-width: 768px) {
+    .main-content {
+        padding-bottom: calc(var(--player-height) + var(--safe-bottom) + 2rem);
+    }
+    
+    .player-inner {
+        height: var(--player-height);
+        gap: 1rem;
+        padding: 0.5rem 1rem;
+    }
+    
+    .player-info {
+        min-width: 140px;
+    }
+    
+    .volume-btn {
+        display: flex;
+    }
+    
+    .time-display {
+        font-size: 0.7rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .main-content {
+        padding: 2rem 3rem calc(var(--player-height) + var(--safe-bottom) + 3rem);
+    }
+    
+    .countdown {
+        gap: 3rem;
+    }
+    
+    .countdown-item {
+        min-width: 120px;
+    }
+}
+
+/* Telas muito pequenas */
+@media (max-width: 359px) {
+    .countdown {
+        gap: 0.5rem;
+    }
+    
+    .countdown-item {
+        min-width: 50px;
+    }
+    
+    .countdown-number {
+        font-size: 1.8rem;
+    }
+    
+    .countdown-label {
+        font-size: 0.55rem;
+        letter-spacing: 0.1em;
+    }
+    
+    .player-inner {
+        gap: 0.4rem;
+        padding: 0.4rem 0.5rem;
+    }
+    
+    .player-info {
+        max-width: 80px;
+    }
+    
+    .time-display {
+        display: none;
+    }
+}
+
+/* ============================================
+   REDUÇÃO DE MOVIMENTO
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .loading-bar {
+        animation: none;
+        width: 100%;
+    }
+}
+
+/* ============================================
+   FOCO E ACESSIBILIDADE
+   ============================================ */
+:focus-visible {
+    outline: 2px solid var(--color-text-secondary);
+    outline-offset: 2px;
+}
+
+/* ============================================
+   ESTADOS DO PLAYER QUANDO ÁUDIO NÃO DISPONÍVEL
+   ============================================ */
+.player.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.player.disabled .player-inner {
+    background-color: var(--color-bg-soft);
+}
