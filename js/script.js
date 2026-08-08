@@ -1,4 +1,4 @@
-   /* ============================================
+/* ============================================
    EJC COCAIA - 9º Encontro de Jovens com Cristo
    JavaScript Principal - Vanilla JS
    ============================================ */
@@ -20,9 +20,9 @@ const CONFIG = {
 
     // Configuração da música
     music: {
-        file: "Perfume  Acústico Inside  Fraternidade São João Paulo II - Fraternidade São João Paulo II (youtube).mp3",    // Caminho do arquivo MP3
-        title: "Perfume",        // Nome da música (exibido no player)
-        artist: "Fraternidade São João Paulo II"        // Nome do artista (exibido no player)
+        file: "./assets/music.mp3",    // Caminho do arquivo MP3
+        title: "NOME DA MÚSICA",        // Nome da música (exibido no player)
+        artist: "NOME DO CANTOR"        // Nome do artista (exibido no player)
     }
 };
 
@@ -279,7 +279,6 @@ function initAudio() {
 
     // Configura informações no player
     DOM.musicTitle.textContent = CONFIG.music.title;
-    DOM.artist = CONFIG.music.artist;
     DOM.musicArtist.textContent = CONFIG.music.artist;
 
     // Restaura volume salvo
@@ -311,6 +310,7 @@ function onAudioError() {
     State.audioReady = false;
     console.warn('Áudio não disponível');
     disablePlayer();
+    hideLoading();
 }
 
 function onAudioTimeUpdate() {
