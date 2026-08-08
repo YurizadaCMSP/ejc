@@ -16,7 +16,7 @@ const CONFIG = {
     targetDate: "2026-08-30T20:00:00-03:00",
 
     // Caminho da logo (PNG com transparência recomendado)
-    logo: "./assets/logo.png",
+    logo: "logo.jpeg",
 
     // Configuração da música
     music: {
