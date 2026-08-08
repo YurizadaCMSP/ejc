@@ -20,9 +20,9 @@ const CONFIG = {
 
     // Configuração da música
     music: {
-        file: "./assets/music.mp3",    // Caminho do arquivo MP3
-        title: "NOME DA MÚSICA",        // Nome da música (exibido no player)
-        artist: "NOME DO CANTOR"        // Nome do artista (exibido no player)
+        file: "Perfume  Acústico Inside  Fraternidade São João Paulo II - Fraternidade São João Paulo II (youtube).mp3",    // Caminho do arquivo MP3
+        title: "Perfume",        // Nome da música (exibido no player)
+        artist: "Fraternidade São João Paulo II"        // Nome do artista (exibido no player)
     }
 };
 
