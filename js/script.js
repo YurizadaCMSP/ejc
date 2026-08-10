@@ -17,7 +17,7 @@ const CONFIG = {
     targetDate: "2026-08-30T20:00:00-03:00",
 
     // Caminho da logo (com fundo transparente)
-    logo: "./assets/logo.png",
+    logo: "./assets/Design sem nome_20260810_142421_0000.png",
 
     // Configuração da música
     music: {
