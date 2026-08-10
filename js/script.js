@@ -21,9 +21,9 @@ const CONFIG = {
 
     // Configuração da música
     music: {
-        file: "./assets/music.mp3",
-        title: "Nome da Música",
-        artist: "Nome do Cantor"
+        file: "./assets/Perfume  Acústico Inside  Fraternidade São João Paulo II - Fraternidade São João Paulo II (youtube).mp3",
+        title: "Perfume",
+        artist: "Fraternidade São João Paulo II"
     },
 
     // Volume inicial (0.0 a 1.0)
