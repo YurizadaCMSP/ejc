@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="9º Encontro de Jovens com Cristo da Paróquia Nossa Senhora Aparecida do Cocaia. Uma experiência de fé, encontro e transformação.">
+    <meta name="theme-color" content="#000000">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="9º Encontro de Jovens com Cristo | Paróquia Nossa Senhora Aparecida do Cocaia">
+    <meta property="og:description" content="Uma experiência de fé, encontro e transformação. Prepare-se para o grande momento.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="./assets/logo.png">
+
+    <title>9º Encontro de Jovens com Cristo | Paróquia Nossa Senhora Aparecida do Cocaia</title>
+
+    <link rel="preconnect" href="./assets/logo.png">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <!-- ==================== POPUP DE SIGILO ==================== -->
+    <div id="sigilo-popup" class="sigilo-popup" role="dialog" aria-modal="true" aria-labelledby="sigilo-title">
+        <div class="sigilo-popup-overlay"></div>
+        <div class="sigilo-popup-content">
+            <div class="sigilo-popup-header">
+                <span class="sigilo-popup-icon" aria-hidden="true">🤫</span>
+                <h2 id="sigilo-title" class="sigilo-popup-title"></h2>
+            </div>
+            <div class="sigilo-popup-body" id="sigilo-message"></div>
+            <button id="sigilo-close-btn" class="sigilo-popup-btn" aria-label="Entendi, fechar aviso">
+                <span>Entendi</span>
+                <span aria-hidden="true">→</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== LOADING SCREEN ==================== -->
+    <div id="loading-screen" class="loading-screen" role="status" aria-live="polite" aria-label="Carregando experiência">
+        <div class="loading-content">
+            <div class="loading-logo-wrapper">
+                <img 
+                    id="loading-logo" 
+                    src="" 
+                    alt="Logo do 9º Encontro de Jovens com Cristo" 
+                    class="loading-logo"
+                    loading="eager"
+                >
+            </div>
+            <p class="loading-text" id="loading-text">Preparando a experiência...</p>
+            <div class="loading-indicator" aria-hidden="true">
+                <div class="loading-bar"></div>
+            </div>
+        </div>
+
+        <!-- Botão de entrada (aparece quando autoplay é bloqueado) -->
+        <button 
+            id="enter-btn" 
+            class="enter-btn hidden" 
+            aria-label="Entrar no site e iniciar a experiência com música"
+        >
+            <span class="enter-btn-text">Viver Essa Experiência</span>
+            <span class="enter-btn-icon" aria-hidden="true">→</span>
+        </button>
+    </div>
+
+    <!-- ==================== CONTEÚDO PRINCIPAL ==================== -->
+    <main id="main-content" class="main-content hidden" aria-hidden="true">
+        <!-- Logo principal -->
+        <div class="logo-container">
+            <img 
+                id="main-logo" 
+                src="" 
+                alt="Logo do 9º Encontro de Jovens com Cristo" 
+                class="main-logo"
+                loading="eager"
+            >
+        </div>
+
+        <!-- Título do evento -->
+        <h1 class="event-title" id="event-title">
+            9º Encontro de Jovens com Cristo<br>
+            <span class="event-subtitle">da Paróquia Nossa Senhora Aparecida do Cocaia</span>
+        </h1>
+
+        <!-- Contagem regressiva -->
+        <div class="countdown-container" id="countdown-container" role="timer" aria-live="off" aria-atomic="true">
+            <div class="countdown-item">
+                <span class="countdown-number" id="countdown-days">00</span>
+                <span class="countdown-label">Dias</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="countdown-hours">00</span>
+                <span class="countdown-label">Horas</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="countdown-minutes">00</span>
+                <span class="countdown-label">Minutos</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="countdown-seconds">00</span>
+                <span class="countdown-label">Segundos</span>
+            </div>
+        </div>
+
+        <!-- Botão Abrir Livrão (aparece quando a contagem termina) -->
+        <div class="open-livrao-wrapper hidden" id="open-livrao-wrapper">
+            <a id="open-livrao-btn" href="./agorasim.html" class="open-livrao-btn">
+                <span id="open-livrao-text">Abrir Livrão</span>
+                <span aria-hidden="true">→</span>
+            </a>
+        </div>
+
+        <!-- Mensagem quando o evento chegar -->
+        <p class="event-message hidden" id="event-message" role="status" aria-live="polite">
+            O grande momento chegou.
+        </p>
+    </main>
+
+    <!-- ==================== PLAYER DE MÚSICA ==================== -->
+    <div id="music-player" class="music-player hidden" role="region" aria-label="Player de música">
+        <div class="player-content">
+            <!-- Info da música -->
+            <div class="player-info">
+                <div class="player-track">
+                    <span class="player-title" id="player-title">Nome da Música</span>
+                    <span class="player-artist" id="player-artist">Nome do Cantor</span>
+                </div>
+            </div>
+
+            <!-- Controles -->
+            <div class="player-controls">
+                <button 
+                    id="player-play-btn" 
+                    class="player-play-btn" 
+                    aria-label="Reproduzir música"
+                    aria-pressed="false"
+                >
+                    <svg class="player-icon play-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                    <svg class="player-icon pause-icon hidden" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Progresso -->
+            <div class="player-progress-wrapper">
+                <span class="player-time" id="player-current-time">00:00</span>
+                <div class="player-progress-bar" id="player-progress-bar" role="slider" aria-label="Progresso da música" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+                    <div class="player-progress-fill" id="player-progress-fill"></div>
+                </div>
+                <span class="player-time" id="player-duration">00:00</span>
+            </div>
+
+            <!-- Volume -->
+            <div class="player-volume-wrapper">
+                <button id="player-volume-btn" class="player-volume-btn" aria-label="Controle de volume" aria-pressed="false">
+                    <svg class="player-icon volume-high-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                    </svg>
+                    <svg class="player-icon volume-mute-icon hidden" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73 4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                    </svg>
+                </button>
+                <div class="player-volume-bar" id="player-volume-bar" role="slider" aria-label="Nível de volume" aria-valuemin="0" aria-valuemax="100" aria-valuenow="70" tabindex="0">
+                    <div class="player-volume-fill" id="player-volume-fill"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Elemento de áudio -->
+    <audio id="audio-element" preload="metadata" crossorigin="anonymous"></audio>
+
+    <script src="./js/agorasim.js"></script>
+    <script src="./js/script.js"></script>
+</body>
+</html>
