@@ -1,0 +1,376 @@
+/* ============================================================
+   AGORASIM - Página do Livrão
+   Estilos adicionais para a página agorasim.html
+   ============================================================ */
+
+/* ==================== LAYOUT PRINCIPAL ==================== */
+.agorasim-main {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: var(--space-2xl) var(--space-xl);
+    padding-bottom: calc(var(--space-3xl) + 40px);
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    min-height: 100dvh;
+    gap: var(--space-2xl);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: contentFadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ==================== SEÇÕES ==================== */
+.agorasim-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-lg);
+    opacity: 0;
+    animation: contentFadeIn 0.8s ease forwards;
+}
+
+.agorasim-section:nth-child(3) { animation-delay: 0.15s; }
+.agorasim-section:nth-child(4) { animation-delay: 0.3s; }
+
+.agorasim-section-title {
+    font-size: clamp(1rem, 3vw, 1.3rem);
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    color: var(--color-yellow);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+/* ==================== BOTÕES ==================== */
+.agorasim-buttons {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.agorasim-buttons--vertical {
+    flex-direction: column;
+    align-items: center;
+    max-width: 400px;
+}
+
+.agorasim-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-xl);
+    border-radius: 100px;
+    font-family: var(--font-primary);
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    min-width: 180px;
+}
+
+.agorasim-btn:hover,
+.agorasim-btn:focus {
+    transform: translateY(-2px) scale(1.02);
+    outline: none;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.agorasim-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.agorasim-btn-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+/* YouTube */
+.agorasim-btn--youtube {
+    background: rgba(255, 0, 0, 0.08);
+    color: #ff4444;
+    border-color: rgba(255, 0, 0, 0.2);
+}
+.agorasim-btn--youtube:hover,
+.agorasim-btn--youtube:focus {
+    background: rgba(255, 0, 0, 0.15);
+    border-color: rgba(255, 0, 0, 0.4);
+    box-shadow: 0 8px 30px rgba(255, 0, 0, 0.15);
+}
+
+/* Spotify */
+.agorasim-btn--spotify {
+    background: rgba(29, 185, 84, 0.08);
+    color: #1db954;
+    border-color: rgba(29, 185, 84, 0.2);
+}
+.agorasim-btn--spotify:hover,
+.agorasim-btn--spotify:focus {
+    background: rgba(29, 185, 84, 0.15);
+    border-color: rgba(29, 185, 84, 0.4);
+    box-shadow: 0 8px 30px rgba(29, 185, 84, 0.15);
+}
+
+/* Download */
+.agorasim-btn--download {
+    background: rgba(245, 197, 24, 0.08);
+    color: var(--color-yellow);
+    border-color: rgba(245, 197, 24, 0.2);
+}
+.agorasim-btn--download:hover,
+.agorasim-btn--download:focus {
+    background: rgba(245, 197, 24, 0.15);
+    border-color: rgba(245, 197, 24, 0.4);
+    box-shadow: 0 8px 30px rgba(245, 197, 24, 0.15);
+}
+
+/* Drive */
+.agorasim-btn--drive {
+    background: rgba(66, 133, 244, 0.08);
+    color: #4285f4;
+    border-color: rgba(66, 133, 244, 0.2);
+}
+.agorasim-btn--drive:hover,
+.agorasim-btn--drive:focus {
+    background: rgba(66, 133, 244, 0.15);
+    border-color: rgba(66, 133, 244, 0.4);
+    box-shadow: 0 8px 30px rgba(66, 133, 244, 0.15);
+}
+
+/* ==================== PDF VIEWER ==================== */
+.pdf-viewer-wrapper {
+    width: 100%;
+    max-width: 700px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--color-gray-darker);
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.pdf-viewer {
+    width: 100%;
+    height: 500px;
+    border: none;
+    background: var(--color-gray-darker);
+}
+
+.pdf-fallback {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    padding: var(--space-2xl);
+    color: var(--color-gray);
+    text-align: center;
+    min-height: 400px;
+}
+
+.pdf-fallback p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* ==================== LINK VOLTAR ==================== */
+.agorasim-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    color: var(--color-gray);
+    text-decoration: none;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color var(--transition-base);
+    margin-top: var(--space-xl);
+    opacity: 0;
+    animation: contentFadeIn 0.8s ease 0.45s forwards;
+}
+
+.agorasim-back-link:hover,
+.agorasim-back-link:focus {
+    color: var(--color-white);
+    outline: none;
+}
+
+/* ==================== POPUP DE SIGILO ==================== */
+.sigilo-popup {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-xl);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.sigilo-popup.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.sigilo-popup.hidden {
+    display: none !important;
+}
+
+.sigilo-popup-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.sigilo-popup-content {
+    position: relative;
+    z-index: 1;
+    background: var(--color-gray-dark);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: var(--space-2xl);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    transform: translateY(20px) scale(0.95);
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sigilo-popup.visible .sigilo-popup-content {
+    transform: translateY(0) scale(1);
+}
+
+.sigilo-popup-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.sigilo-popup-icon {
+    font-size: 3rem;
+    line-height: 1;
+}
+
+.sigilo-popup-title {
+    font-size: clamp(1.2rem, 4vw, 1.6rem);
+    font-weight: 300;
+    letter-spacing: 0.06em;
+    color: var(--color-yellow);
+    text-transform: uppercase;
+}
+
+.sigilo-popup-body {
+    font-size: clamp(0.85rem, 2.5vw, 1rem);
+    line-height: 1.7;
+    color: var(--color-gray-light);
+    margin-bottom: var(--space-xl);
+}
+
+.sigilo-popup-body strong {
+    color: var(--color-white);
+    font-weight: 500;
+}
+
+.sigilo-popup-body em {
+    color: var(--color-yellow);
+    font-style: normal;
+}
+
+.sigilo-popup-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-2xl);
+    background: transparent;
+    border: 1px solid rgba(245, 197, 24, 0.3);
+    color: var(--color-yellow);
+    border-radius: 100px;
+    font-family: var(--font-primary);
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    backdrop-filter: blur(8px);
+}
+
+.sigilo-popup-btn:hover,
+.sigilo-popup-btn:focus {
+    background: rgba(245, 197, 24, 0.1);
+    border-color: rgba(245, 197, 24, 0.5);
+    transform: scale(1.02);
+    outline: none;
+    box-shadow: 0 0 30px rgba(245, 197, 24, 0.1);
+}
+
+.sigilo-popup-btn:active {
+    transform: scale(0.98);
+}
+
+/* ==================== RESPONSIVIDADE ==================== */
+@media (max-width: 480px) {
+    .agorasim-main {
+        padding: var(--space-xl) var(--space-md);
+        gap: var(--space-xl);
+    }
+
+    .pdf-viewer {
+        height: 350px;
+    }
+
+    .agorasim-btn {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .sigilo-popup-content {
+        padding: var(--space-xl);
+    }
+}
+
+@media (min-width: 1024px) {
+    .pdf-viewer {
+        height: 600px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .agorasim-main,
+    .agorasim-section,
+    .agorasim-back-link {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+
+    .sigilo-popup-content {
+        transition: none;
+        transform: none;
+    }
+}
