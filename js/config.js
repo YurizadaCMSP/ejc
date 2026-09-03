@@ -30,7 +30,7 @@ const CONFIG = {
     // PDF DO LIVRÃO
     // ========================================================
     pdf: {
-        url: "./assets/livrao.pdf",           // URL do PDF (local ou externo)
+        url: "https://pub-6a54358c807845db8f1e3d0863fff2a0.r2.dev/Livr%C3%A3o%20EJC_20260902_220151_0000.pdf",           // URL do PDF (local ou externo)
         driveUrl: "https://drive.google.com/drive/folders/1Vjb2BQRYBAiDgKCLd5MaYRozV3zVU0uz", // Google Drive
         downloadFilename: "Livrao-9-EJC.pdf"   // Nome no download
     },
