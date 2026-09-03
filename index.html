@@ -2,276 +2,99 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="Livrão do 9º Encontro de Jovens com Cristo - Paróquia Nossa Senhora Aparecida do Cocaia">
-    <meta name="theme-color" content="#000000">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta property="og:title" content="Livrão | 9º EJC Paróquia Nossa Senhora Aparecida do Cocaia">
-    <meta property="og:description" content="Acesse o Livrão, a Música Tema e os materiais do encontro.">
-    <meta property="og:type" content="website">
+    <meta http-equiv="refresh" content="2;url=https://drive.google.com/drive/folders/1Vjb2BQRYBAiDgKCLd5MaYRozV3zVU0uz">
 
-    <title>Livrão | 9º Encontro de Jovens com Cristo</title>
+    <title>Redirecionando...</title>
 
-    <!-- PDF.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    <link rel="stylesheet" href="./css/style.css">
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            text-align: center;
+        }
+
+        .container {
+            background: white;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .loader {
+            width: 35px;
+            height: 35px;
+            margin: 0 auto 20px;
+            border: 4px solid #ddd;
+            border-top: 4px solid #4285f4;
+            border-radius: 50%;
+            animation: girar 1s linear infinite;
+        }
+
+        a {
+            color: #4285f4;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes girar {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <!-- ==================== LOADING ==================== -->
-    <div id="loading" class="loading" role="status" aria-live="polite">
-        <div class="loading-inner">
-            <img id="loading-logo" src="" alt="Logo" class="loading-logo-img">
-            <div class="loading-bar-track">
-                <div class="loading-bar-fill" id="loading-bar-fill"></div>
-            </div>
-            <p class="loading-text">Carregando o Livrão...</p>
-        </div>
+
+    <div class="container">
+        <div class="loader"></div>
+
+        <h1>Redirecionando...</h1>
+
+        <p>
+            Você será direcionado para o Google Drive.
+        </p>
+
+        <a href="https://drive.google.com/drive/folders/1Vjb2BQRYBAiDgKCLd5MaYRozV3zVU0uz">
+            Clique aqui se não for redirecionado
+        </a>
     </div>
 
-    <!-- ==================== POPUP SIGILO ==================== -->
-    <div id="sigilo-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="sigilo-title">
-        <div class="modal-backdrop"></div>
-        <div class="modal-content">
-            <div class="modal-icon">🤫</div>
-            <h2 id="sigilo-title" class="modal-title"></h2>
-            <div id="sigilo-body" class="modal-body"></div>
-            <button id="sigilo-accept" class="modal-btn">
-                <span>Entendi, vamos lá</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-        </div>
-    </div>
-
-    <!-- ==================== HEADER ==================== -->
-    <header class="header">
-        <div class="header-inner">
-            <div class="header-logo">
-                <img id="header-logo" src="" alt="Logo do EJC">
-            </div>
-            <div class="header-text">
-                <h1 id="header-title">9º Encontro de Jovens com Cristo</h1>
-                <p id="header-subtitle">Paróquia Nossa Senhora Aparecida do Cocaia</p>
-            </div>
-        </div>
-    </header>
-
-    <!-- ==================== MAIN ==================== -->
-    <main class="main">
-        <!-- PDF Viewer -->
-        <section class="pdf-section" id="pdf-section">
-            <div class="pdf-toolbar">
-                <div class="pdf-toolbar-group">
-                    <button id="btn-prev" class="toolbar-btn" aria-label="Página anterior">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-                    </button>
-                    <span class="pdf-page-info">
-                        <span id="page-current">1</span>
-                        <span class="pdf-page-sep">/</span>
-                        <span id="page-total">—</span>
-                    </span>
-                    <button id="btn-next" class="toolbar-btn" aria-label="Próxima página">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-                    </button>
-                </div>
-                <div class="pdf-toolbar-group">
-                    <button id="btn-zoom-out" class="toolbar-btn" aria-label="Diminuir zoom">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M8 11h6"/></svg>
-                    </button>
-                    <span id="zoom-level" class="zoom-label">100%</span>
-                    <button id="btn-zoom-in" class="toolbar-btn" aria-label="Aumentar zoom">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg>
-                    </button>
-                    <button id="btn-fullscreen" class="toolbar-btn" aria-label="Tela cheia">
-                        <svg id="icon-fullscreen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
-                    </button>
-                </div>
-            </div>
-
-            <div class="pdf-viewport" id="pdf-viewport">
-                <canvas id="pdf-canvas" class="pdf-canvas"></canvas>
-                <div id="pdf-placeholder" class="pdf-placeholder hidden">
-                    <div class="pdf-placeholder-icon">📖</div>
-                    <p>Não foi possível carregar o PDF.</p>
-                    <p class="pdf-placeholder-sub">Use os botões abaixo para baixar ou acessar pelo Drive.</p>
-                </div>
-            </div>
-
-            <!-- Thumbnails -->
-            <div class="pdf-thumbnails" id="pdf-thumbnails">
-                <button id="thumb-scroll-left" class="thumb-scroll-btn" aria-label="Rolar miniaturas para esquerda">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-                </button>
-                <div class="thumbnails-track" id="thumbnails-track"></div>
-                <button id="thumb-scroll-right" class="thumb-scroll-btn" aria-label="Rolar miniaturas para direita">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-                </button>
-            </div>
-
-            <!-- Progress bar -->
-            <div class="pdf-progress-track">
-                <div class="pdf-progress-fill" id="pdf-progress-fill"></div>
-            </div>
-        </section>
-
-        <!-- Action Buttons -->
-        <section class="actions-section">
-            <h2 class="section-title">
-                <span class="section-title-icon">📥</span>
-                Material do Encontro
-            </h2>
-            <div class="actions-grid">
-                <a id="btn-download" href="#" download class="action-card action-card--primary">
-                    <div class="action-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-                    </div>
-                    <div class="action-text">
-                        <span class="action-label">Baixar PDF</span>
-                        <span class="action-sublabel">Salvar no dispositivo</span>
-                    </div>
-                </a>
-                <a id="btn-drive" href="#" target="_blank" rel="noopener noreferrer" class="action-card action-card--secondary">
-                    <div class="action-icon">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.71 3.5L1.15 15l3.43 5.95L11.14 9.5 7.71 3.5zm8.58 0L9.57 19.5H20.3l3.43-5.95L16.29 3.5h.01z"/></svg>
-                    </div>
-                    <div class="action-text">
-                        <span class="action-label">Google Drive</span>
-                        <span class="action-sublabel">Abrir no Drive</span>
-                    </div>
-                </a>
-            </div>
-        </section>
-
-        <!-- Theme Music -->
-        <section class="music-section">
-            <h2 class="section-title">
-                <span class="section-title-icon">🎵</span>
-                Música Tema
-            </h2>
-            <div class="music-grid">
-                <a id="btn-youtube" href="#" target="_blank" rel="noopener noreferrer" class="music-card music-card--youtube">
-                    <div class="music-card-icon">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                    </div>
-                    <div class="music-card-text">
-                        <span class="music-card-name">YouTube</span>
-                        <span class="music-card-desc">Assistir no YouTube</span>
-                    </div>
-                    <svg class="music-card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </a>
-                <a id="btn-spotify" href="#" target="_blank" rel="noopener noreferrer" class="music-card music-card--spotify">
-                    <div class="music-card-icon">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
-                    </div>
-                    <div class="music-card-text">
-                        <span class="music-card-name">Spotify</span>
-                        <span class="music-card-desc">Ouvir no Spotify</span>
-                    </div>
-                    <svg class="music-card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </a>
-            </div>
-        </section>
-    </main>
-
-    <!-- ==================== MUSIC PLAYER ==================== -->
-    <div id="music-player" class="music-player" role="region" aria-label="Player de música">
-        <div class="mp-inner">
-            <button id="mp-play" class="mp-play" aria-label="Play/Pause">
-                <svg id="mp-icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                <svg id="mp-icon-pause" class="hidden" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-            </button>
-            <div class="mp-info">
-                <span id="mp-title" class="mp-title">Música</span>
-                <span id="mp-artist" class="mp-artist">Artista</span>
-            </div>
-            <div class="mp-progress-wrap">
-                <span id="mp-time" class="mp-time">00:00</span>
-                <div class="mp-progress-bar" id="mp-progress-bar" role="slider" tabindex="0" aria-label="Progresso">
-                    <div class="mp-progress-fill" id="mp-progress-fill"></div>
-                </div>
-                <span id="mp-duration" class="mp-time">00:00</span>
-            </div>
-            <div class="mp-volume-wrap">
-                <button id="mp-mute" class="mp-mute" aria-label="Mudo">
-                    <svg id="mp-icon-vol" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
-                    <svg id="mp-icon-mute" class="hidden" viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73 4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
-                </button>
-                <div class="mp-volume-bar" id="mp-volume-bar" role="slider" tabindex="0" aria-label="Volume">
-                    <div class="mp-volume-fill" id="mp-volume-fill"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Audio element -->
-    <audio id="audio-el" preload="metadata" crossorigin="anonymous"></audio>
-
-    <script src="./js/config.js"></script>
     <script>
-        /* ============================================================
-   CONFIGURAÇÕES DO LIVRÃO - EJC
-   Edite apenas este arquivo para personalizar tudo
-   ============================================================ */
-
-const CONFIG = {
-    // ========================================================
-    // EVENTO
-    // ========================================================
-    eventName: "9º Encontro de Jovens com Cristo",
-    subtitle: "Paróquia Nossa Senhora Aparecida do Cocaia",
-
-    // ========================================================
-    // LOGO (caminho da imagem)
-    // ========================================================
-    logo: "./assets/Design sem nome_20260810_142421_0000.png",
-
-    // ========================================================
-    // MÚSICA DE FUNDO
-    // ========================================================
-    music: {
-        file: "./assets/music.mp3",
-        title: "Perfume",
-        artist: "Fraternidade São João Paulo II",
-        volume: 0.5,
-        fadeInDuration: 2000
-    },
-
-    // ========================================================
-    // PDF DO LIVRÃO
-    // ========================================================
-    pdf: {
-        url: "https://pub-6a54358c807845db8f1e3d0863fff2a0.r2.dev/Livr%C3%A3o%20EJC_20260902_220151_0000.pdf",           // URL do PDF (local ou externo)
-        driveUrl: "https://drive.google.com/drive/folders/1Vjb2BQRYBAiDgKCLd5MaYRozV3zVU0uz", // Google Drive
-        downloadFilename: "Livrao-9-EJC.pdf"   // Nome no download
-    },
-
-    // ========================================================
-    // MÚSICA TEMA (links externos)
-    // ========================================================
-    themeMusic: {
-        youtube: "https://youtu.be/bPNr8Wr3qkk?is=67x3_vD0PPJI__Y2",
-        spotify: "https://open.spotify.com/track/5T4jd2BhpNRenNNKvHof2Y?si=k-e6nndMTkym_3e7LIymYA&utm_source=copy-link&sci=spotify%3Acard-config%3A6F568Zn43NxPVezy3lbHRj"
-    },
-
-    // ========================================================
-    // POPUP DE SIGILO
-    // ========================================================
-    sigilo: {
-        title: "Sigilo no EJC",
-        message: `<p>Queridos encontreios e encontristas, o <strong>EJC precisa do sigilo</strong>, não vamos acabar com o segredo e a magia do encontro.</p>
-        <p class="sigilo-warning">Cuidado ao postar em redes sociais!</p>
-        <ul class="sigilo-list">
-            <li>Não mostre o QR Code</li>
-            <li>Não mostre o nome dos círculos/equipes</li>
-            <li>Não mostre os momentos</li>
-        </ul>
-        <p class="sigilo-footer"><em>Sejamos sigilosos!</em></p>`,
-        alwaysShow: true,  // true = aparece sempre que recarrega
-        dismissForSession: false  // se true, lembra que fechou (sessionStorage)
-    }
-};
+        setTimeout(function () {
+            window.location.href =
+                "https://drive.google.com/drive/folders/1Vjb2BQRYBAiDgKCLd5MaYRozV3zVU0uz";
+        }, 2000);
     </script>
-    <script src="https://encontro2026.vercel.app/js/app.js"></script>
-    
+
 </body>
 </html>
